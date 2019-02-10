@@ -4,7 +4,6 @@ module.exports = function (req, res, next) {
 		req.session.flash = undefined;
 	}
 
-	console.log('toto')
 	req.flash = function (type, content) {
 		if (req.session.flash === undefined) {
 			req.session.flash = {};

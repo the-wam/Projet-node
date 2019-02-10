@@ -3,6 +3,7 @@ let app = express();
 let bodyParser = require('body-parser');
 let session = require('express-session');
 
+
 //template
 
 app.set('view engine', 'ejs');
@@ -22,8 +23,10 @@ app.use(require('./middlewares/flash'));
 //Routes 
 
 app.get('/', (req, res) => {
-
-	res.render('pages/index');
+  let Message = require('./models/message');
+  Message.all(function (messages) {
+	 res.render('pages/index', {messages: messages} );
+  })
 });
 
 app.post('/', (req, res) => {
@@ -31,7 +34,23 @@ app.post('/', (req, res) => {
 		req.flash('error', "Vous n'avez pas entré de message");
 		res.redirect('/');
 	}
+  else {    
+    let Message = require('./models/message');
+
+    Message.create(req.body.message, function () {
+      req.flash('success', "le message a bien été envoyé");
+      res.redirect('/');
+    })
+  }
 	
 });
 
-app.listen(8080);
+app.get('/message/:id', (req, res) => {
+  let Message = require('./models/message')
+  Message.find(req.params.id, function (message) {
+    res.render('message/show', {message: message})
+  })
+})
+
+
+app.listen(8000);

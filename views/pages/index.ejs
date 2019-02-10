@@ -1,12 +1,28 @@
-<% include header %>
+<% include ../header %>
 
 <form action="/" method="post" class="ui form">
-	<div class="field">
-		<label for="message">Message</label>
-		<textarea name="message" id="message"></textarea>
-	</div>
-	<button type="submit" class="ui blue labeled sumbit icon button">
-		<i class="icon edit"></i>Envoyer
-	</button>
+    <div class="field">
+        <label for="message">Message</label>
+        <textarea name="message" id="message"></textarea>
+    </div>
+    <button type="submit" class="ui blue labeled sumbit icon button">
+        <i class="icon edit"></i>Envoyer
+    </button>
 </form>
-<% include footer %>
+    
+<div class="ui comments">
+    <h3 class="ui dividing header">Commentaires</h3>
+    <% for (message of messages) { %>
+    <div class="comment">
+        <a class="avatar" href="/message/<%= message.id %>">
+            <img src="/assets/img/Panda-World-of-Warcraft.jpg">
+        </a>
+        <small> <%= message.created_at.fromNow() %></small>
+        <p class="content"><%= message.content %></p>
+        
+    </div>
+
+    <% } %>
+
+</div>
+<% include ../footer %>
